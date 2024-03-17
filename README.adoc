@@ -1,0 +1,28 @@
+= gnome-online-accounts-config
+Extracting the config file format from gnome-online-accounts
+
+WARNING: This is really really REALLY hacky and the results should always be checked manually.
+
+== Usage
+
+Use `nix run github:zebreus/gnome-online-accounts-config` to run the program and generate a new config into the current directory.
+
+You can add a commit hash or branch of the gnome-online-accounts repo to the end of the command to select a specific revision.
+
+== How does it work?
+
+First it uses grep and sed to find all instances where the config file is read or written in the source code. The source code also contains the definitions for the dbus interface definitions, which uses some of the same keys as the config file. We also extract those descriptions where available. The bash script then generates an intermediate json file with all found information (`extractedConfig.json`).
+
+A deno script is then used to process that information into a less redundant and more usable json format (`cleanedConfig.json`). The deno script then adds some hardcoded information about the config file format, such as missing descriptions and types. That part of the script can be changed to add more hardcoded information if needed. The the processed json is written to a file called `fixedConfig.json`. We also generate a `fixedConfig.nix` for use as a base in home-manager. The `cleanedConfig` and  `fixedConfig` files should be checked into the repository, so that we can track changes to the config file format over time.
+
+I then manually go through the `fixedConfig.nix` file to create a `finalConfig.nix` that is also checked into the repository. This file is the one that should be used in home-manager to define the config file format.
+
+== What to do if the config file format changes?
+
+If the config file format changes, you should 
+
+1. Update the version of the package in the `flake.nix` file. It should match a tag in the gnome-online-accounts repo.
+2. Run the script again and compare the `cleanedConfig.json` to the ones in the repository. If there are no changes, you are done
+3. If there are changes, modify the `overrides` part of `processSchema.ts` to add information to the new format.
+4. Run the script again and check `fixedConfig.json` and `fixedConfig.nix` into the repository. If you are not happy with the changes, go back to step 2 until you are.
+5. Compare the previous `fixedConfig.nix` file to the previous `finalConfig.nix` file and take a note of the changes that were made. Manually do the same changes to the new `fixedConfig.nix` file and save it as `finalConfig.nix`.

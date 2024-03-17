@@ -1,0 +1,292 @@
+{
+  "IsLocked": {
+    "type": "string",
+    "default": true,
+    "description": "Whether or not the user is discouraged from removing this account.\n\nLocked accounts can be those that there added by the administrator to\npre-configure systems in an enterprise deployment. If `true`, the UI\nshould prevent, or atleast discourage, removal of these accounts.\n\nRelevant for all accounts.",
+    "providers": [],
+    "commonOption": true
+  },
+  "IsTemporary": {
+    "type": "string",
+    "default": false,
+    "description": "Whether or not the account is remembered from session to session.\n\nTemporary accounts are added implicitly when the user is granted\ncredentials from some mechanism other than Online Accounts, but that\nOnline Accounts still knows how to deal with.\n\nThey are specific to the machine/session and are silently disregarded\nafter logout.\n\nAccounts are permanant by default unless created with [](#opt-service.gnome-online-accounts.accounts._name_.IsTemporary)\n`true` detail.\n\nRelevant for all accounts.",
+    "providers": [
+      "fedora",
+      "kerberos"
+    ],
+    "commonOption": true
+  },
+  "Identity": {
+    "type": "string",
+    "description": "A string that uniquely identifies the account at the provider. This will only be displayed to the user if [](#opt-service.gnome-online-accounts.accounts._name_.PresentationIdentity) is not set.\n\nNote that this does not need to be unique across providers. For example, if the user is using the same\nemail-address for several providers\n        \n\nRelevant for all accounts.",
+    "providers": [],
+    "commonOption": true
+  },
+  "PresentationIdentity": {
+    "type": "string",
+    "description": "Like the [](#opt-service.gnome-online-accounts.accounts._name_.Identity) property but\nsuitable for presentation in an user interface.\n\nRelevant for all accounts.",
+    "providers": [],
+    "commonOption": true
+  },
+  "Provider": {
+    "type": [
+      "exchange",
+      "fedora",
+      "google",
+      "imap_smtp",
+      "kerberos",
+      "media-server",
+      "lastfm",
+      "owncloud",
+      "windows_live"
+    ],
+    "description": "The type of the account. This value describes how data is accessed, e.g. what API\napplications should use. Most other options are only relevant for a specific provider.\n\nRelevant for all accounts.",
+    "providers": [],
+    "commonOption": true
+  },
+  "SessionId": {
+    "type": "string",
+    "description": "The id of the temporary session if this account is temporary.\n\nRelevant for all accounts.",
+    "providers": [
+      "fedora",
+      "kerberos"
+    ],
+    "commonOption": true
+  },
+  "AcceptSslErrors": {
+    "type": "string",
+    "description": "Accept SSL/TLS errors caused by invalid certificates.\n\nThis setting is only used by the exchange and owncloud providers.Use the more specific settings for the other providers.\n\nRelevant for accounts using the exchange, or owncloud provider.",
+    "providers": [
+      "exchange",
+      "owncloud"
+    ],
+    "commonOption": false
+  },
+  "CalendarEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Calendar](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Calendar.html) interface.If the account does not\nprovide calendar- like capabilities, this property does nothing.\n\nRelevant for accounts using the exchange, google, or owncloud provider.",
+    "providers": [
+      "exchange",
+      "google",
+      "owncloud"
+    ],
+    "commonOption": true
+  },
+  "ContactsEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Contacts](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Contacts.html) interface.If the account does not\nprovide contacts - like capabilities, this property does nothing.\n\nRelevant for accounts using the exchange, google, or owncloud provider.",
+    "providers": [
+      "exchange",
+      "google",
+      "owncloud"
+    ],
+    "commonOption": true
+  },
+  "MailEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Mail](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Mail.html) interface.If the account does not\nprovide email - like messaging capabilities, this property does\nnothing.\n\nIf the account uses IMAP / SMTP you also need to set the\n`Enabled` option to the same value.\n\nRelevant for accounts using the exchange, google, or windows_live provider.",
+    "providers": [
+      "exchange",
+      "google",
+      "windows_live"
+    ],
+    "commonOption": true
+  },
+  "Host": {
+    "type": "string",
+    "description": "The Exchange server to use. This is always a domain name.\nUse this to determine the [Autodiscover](https://learn.microsoft.com/en-us/exchange/client-developer/exchange-web-services/autodiscover-for-exchange) service endpoints.\n      \neg. if `Host` is `bar.com`, then the possible endpoints are\n`https://bar.com/autodiscover/autodiscover.xml` and\n`https://autodiscover.bar.com/autodiscover/autodiscover.xml`.\n\nRelevant for accounts using the exchange provider.",
+    "providers": [
+      "exchange"
+    ],
+    "commonOption": false
+  },
+  "TicketingEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Ticketing](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Ticketing.html) interface. If the account does not\nprovide ticketing-like capabilities, this property does nothing.\n\nRelevant for accounts using the fedora, or kerberos provider.",
+    "providers": [
+      "fedora",
+      "kerberos"
+    ],
+    "commonOption": true
+  },
+  "PreauthenticationSource": {
+    "type": "string",
+    "description": "A preauthentication source used by pkinit (such as PKCS11:libcoolkeypk11.so) for Kerberos\n\nRelevant for accounts using the fedora, or kerberos provider.",
+    "providers": [
+      "fedora",
+      "kerberos"
+    ],
+    "commonOption": false
+  },
+  "FilesEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Files](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Files.html) interface. If the account does not\nprovide files-like capabilities, this property does nothing.\n\nRelevant for accounts using the google, or owncloud provider.",
+    "providers": [
+      "google",
+      "owncloud"
+    ],
+    "commonOption": true
+  },
+  "PhotosEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Photos](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Photos.html) interface. If the account does not\nprovide photos-like capabilities, this property does nothing.\n\nRelevant for accounts using the google, or media-server provider.",
+    "providers": [
+      "google",
+      "media-server"
+    ],
+    "commonOption": true
+  },
+  "PrintersEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n[org.gnome.OnlineAccounts.Printers](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Printers.html) interface. If the account does not\nprovide printers-like capabilities, this property does nothing.\n\nRelevant for accounts using the google provider.",
+    "providers": [
+      "google"
+    ],
+    "commonOption": true
+  },
+  "Enabled": {
+    "type": "string",
+    "description": "Enable IMAP and SMTP for the account. You should set\n      `MailEnabled` to the same value.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "ImapAcceptSslErrors": {
+    "type": "string",
+    "description": "Accept SSL/TLS errors caused by invalid certificates.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "ImapUseSsl": {
+    "type": "string",
+    "description": "Whether SSL should be used.\n\nThis indicates that SSL should be used on a dedicated port.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "ImapUseTls": {
+    "type": "string",
+    "description": "Whether TLS should be used.\n\nThis indicates that STARTTLS should be used on a standard port\nafter the connection has been established to obtain a secure\nchannel.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpAcceptSslErrors": {
+    "type": "string",
+    "description": "Accept SSL/TLS errors caused by invalid certificates.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpAuthLogin": {
+    "type": "string",
+    "description": "Whether LOGIN authentication should be used.\n\nThis indicates whether the server uses the\n[\nLOGIN](http://msdn.microsoft.com/en-us/library/cc433484(v=EXCHG.80).aspx) SASL mechanism for SMTP.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpAuthPlain": {
+    "type": "string",
+    "description": "Whether PLAIN authentication should be used.\n\nThis indicates whether the server uses the\n[PLAIN](http://tools.ietf.org/html/rfc4616)\nSASL mechanism for SMTP.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpUseAuth": {
+    "type": "string",
+    "description": "Whether authentication is needed\n\nThis indicates whether the server uses authentication.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpUseSsl": {
+    "type": "string",
+    "description": "Whether SSL should be used.\n\nThis indicates that SSL should be used on a dedicated port.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpUseTls": {
+    "type": "string",
+    "description": "Whether TLS should be used.\n\nThis indicates that STARTTLS should be used on a standard port\nafter the connection has been established to obtain a secure\nchannel.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "EmailAddress": {
+    "type": "string",
+    "description": "The email address for the account or blank if there is no\nsuch address or if it isnt' known or isn't in a standard\nformat.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "ImapHost": {
+    "type": "string",
+    "description": "The IMAP server to use.\n\nThis may be in any of a number of recognized formats; an IPv6\naddress, an IPv4 address, or a domain name. A port override\nmay be specified in the usual way with a colon. Ports may be\ngiven as decimal numbers or symbolic names\n(cf. the `/etc/services` file).\n\nIf a port override is not given, then applications should try\nto connect to port 993 if\n[](#opt-service.gnome-online-accounts.accounts._name_.ImapUseSsl) is `true` and port\n143 if not.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "ImapUserName": {
+    "type": "string",
+    "description": "The user name to use for logging in.\n\nThis may be blank if username/password authentication isn't\nused or if the user name of the current user should be used.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "Name": {
+    "type": "string",
+    "description": "The full name of the user associated with\n[](#opt-service.gnome-online-accounts.accounts._name_.EmailAddress).\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpHost": {
+    "type": "string",
+    "description": "The SMTP server to use.\n\nThis may be in any of a number of recognized formats; an IPv6\naddress, an IPv4 address, or a domain name. A port override\nmay be specified in the usual way with a colon. Ports may be\ngiven as decimal numbers or symbolic names\n(cf. the `/etc/services` file).\n\nIf a port override is not given, then applications should try\nto connect to port 465 if\n[](#opt-service.gnome-online-accounts.accounts._name_.SmtpUseSsl) is `true` and port\n587 (or 25) if not.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "SmtpUserName": {
+    "type": "string",
+    "description": "The user name to use for logging in.\n\nThis may be blank if username/password authentication isn't\nused or if the user name of the current user should be used.\n\nRelevant for accounts using the imap_smtp provider.",
+    "providers": [
+      "imap_smtp"
+    ],
+    "commonOption": false
+  },
+  "MusicEnabled": {
+    "type": "string",
+    "description": "If true, the account will not expose any\n [org.gnome.OnlineAccounts.Music](https://developer-old.gnome.org/goa/stable/gdbus-org.gnome.OnlineAccounts.Music.html) interface. If the account does not\n provide music-like capabilities, this property does nothing.\n\nRelevant for accounts using the lastfm provider.",
+    "providers": [
+      "lastfm"
+    ],
+    "commonOption": true
+  },
+  "Uri": {
+    "type": "string",
+    "example": "\"https://cloud.example.com\"",
+    "description": "URI of the nextcloud server to use.\n\nRelevant for accounts using the owncloud provider.",
+    "providers": [
+      "owncloud"
+    ],
+    "commonOption": false
+  }
+}
