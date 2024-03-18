@@ -182,6 +182,16 @@ provide printers-like capabilities, this property does nothing.`,
     }
 }
 
+for (const [optionName, override] of Object.entries(overrides)) {
+    if (override === "delete") {
+        continue;
+    }
+
+    if (singleObject[optionName] === undefined) {
+        throw new Error(`Overrides contain a override for option ${optionName} which was not detected in the extractedConfig. Please have a look and fix this.`);
+    }
+}
+
 type FixedOption = {
     type: "string" | "boolean" | string[], required?: boolean, example?: string, default: undefined | string | boolean, description: string, providers: string[], commonOption?: boolean
 }
