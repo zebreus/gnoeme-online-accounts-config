@@ -6,8 +6,8 @@
     nixpkgs.url = "github:nixos/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, ... }:
+    (flake-utils.lib.eachDefaultSystem (system:
       rec {
         pkgs = import nixpkgs { inherit system; };
         formatter = pkgs.nixpkgs-fmt;
@@ -39,5 +39,9 @@
           });
         packages.default = packages.extract-config;
       }
-    );
+    )) // {
+      nixosModules.default = { ... }: {
+        home-manager.sharedModules = [ (import ./module.nix) ];
+      };
+    };
 }

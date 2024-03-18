@@ -47,7 +47,7 @@ const outputOptions = groupedOptions.map(option => {
 
     return {
         name: option.name,
-        type: option.type === "string" ? "string" : "",
+        type: option.type === "string" ? "string" : option.type === "boolean" ? "boolean" : undefined,
         descriptions: matchingDescriptions.map(description => description.description).filter(function (item, pos, self) {
             return self.indexOf(item) == pos;
         }),
@@ -246,7 +246,7 @@ Override: ${JSON.stringify(override, null, 2)}`);
 await Deno.writeTextFile("fixedConfig.json", JSON.stringify(fixedOptions, null, 2));
 
 let optionModules = Object.entries(fixedOptions).map(([optionName, option]) => {
-    const type = `${option.required ? "" : "types.nullOr "} ${option.type === "string" ? "types.str" : option.type === "boolean" ? "types.bool" : `types.enum [${(option.type).join(" ")}]`}`;
+    const type = `${option.required ? "" : "types.nullOr "} ${option.type === "string" ? "types.str" : option.type === "boolean" ? "types.bool" : `(types.enum [${(option.type.map(provider => `"${provider}"`)).join(" ")}])`}`;
     const defaultValue = option.default ? (option.default.toString()) : option.required ? undefined : "null";
     const example = option.example ? option.example : undefined;
 
@@ -270,12 +270,10 @@ let nixString = `
 with lib;
 let
   accountType = { lib, ... }: with lib; {
-    freeformType = with lib.types; attrsOf str;
+    freeformType = with lib.types; attrsOf (oneOf [ null str bool ]);
 
-    options = types.submoduleWith {
-      modules = [ {
-        ${optionModules.join("\n  ")}
-      } ];
+    options = {
+      ${optionModules.join("\n  ")}
     };
   };
 in

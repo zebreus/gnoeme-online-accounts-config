@@ -1,10 +1,12 @@
 {
   "ForceRemove": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [],
     "commonOption": true
   },
   "IsLocked": {
+    "type": "boolean",
     "descriptions": [
       "Whether or not the user is discouraged from removing this account.\n\nLocked accounts can be those that there added by the administrator to\npre-configure systems in an enterprise deployment. If %TRUE, the UI\nshould prevent, or atleast discourage, removal of these accounts."
     ],
@@ -13,6 +15,7 @@
     "commonOption": true
   },
   "IsTemporary": {
+    "type": "boolean",
     "descriptions": [
       "Whether or not the account is remembered from session to session.\n\nTemporary accounts are added implicitly when the user is granted\ncredentials from some mechanism other than Online Accounts, but that\nOnline Accounts still knows how to deal with.\n\nThey are specific to the machine/session and are silently disregarded\nafter logout.\n\nAccounts are permanant by default unless created with \"IsTemporary\"\n\"true\" detail."
     ],
@@ -57,6 +60,7 @@
     "commonOption": true
   },
   "AcceptSslErrors": {
+    "type": "boolean",
     "descriptions": [
       "Accept SSL/TLS errors caused by invalid certificates."
     ],
@@ -68,6 +72,7 @@
     "commonOption": false
   },
   "CalendarEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "exchange",
@@ -77,6 +82,7 @@
     "commonOption": false
   },
   "ContactsEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "exchange",
@@ -86,6 +92,7 @@
     "commonOption": false
   },
   "MailEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "exchange",
@@ -106,6 +113,7 @@
     "commonOption": false
   },
   "TicketingEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "fedora",
@@ -123,6 +131,7 @@
     "commonOption": false
   },
   "FilesEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "google",
@@ -131,6 +140,7 @@
     "commonOption": false
   },
   "PhotosEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "google",
@@ -139,6 +149,7 @@
     "commonOption": false
   },
   "PrintersEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "google"
@@ -146,6 +157,7 @@
     "commonOption": false
   },
   "Enabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "imap_smtp"
@@ -153,6 +165,7 @@
     "commonOption": false
   },
   "ImapAcceptSslErrors": {
+    "type": "boolean",
     "descriptions": [
       "Accept SSL/TLS errors caused by invalid certificates."
     ],
@@ -163,6 +176,7 @@
     "commonOption": false
   },
   "ImapUseSsl": {
+    "type": "boolean",
     "descriptions": [
       "Whether SSL should be used.\n\nThis indicates that SSL should be used on a dedicated port."
     ],
@@ -173,6 +187,7 @@
     "commonOption": false
   },
   "ImapUseTls": {
+    "type": "boolean",
     "descriptions": [
       "Whether TLS should be used.\n\nThis indicates that STARTTLS should be used on a standard port\nafter the connection has been established to obtain a secure\nchannel."
     ],
@@ -183,6 +198,7 @@
     "commonOption": false
   },
   "SmtpAcceptSslErrors": {
+    "type": "boolean",
     "descriptions": [
       "Accept SSL/TLS errors caused by invalid certificates."
     ],
@@ -193,6 +209,7 @@
     "commonOption": false
   },
   "SmtpAuthLogin": {
+    "type": "boolean",
     "descriptions": [
       "Whether LOGIN authentication should be used.\n\nThis indicates whether the server uses the\n<ulink url=\"http://msdn.microsoft.com/en-us/library/cc433484(v=EXCHG.80).aspx\">\nLOGIN</ulink> SASL mechanism for SMTP."
     ],
@@ -203,6 +220,7 @@
     "commonOption": false
   },
   "SmtpAuthPlain": {
+    "type": "boolean",
     "descriptions": [
       "Whether PLAIN authentication should be used.\n\nThis indicates whether the server uses the\n<ulink url=\"http://tools.ietf.org/html/rfc4616\">PLAIN</ulink>\nSASL mechanism for SMTP."
     ],
@@ -213,6 +231,7 @@
     "commonOption": false
   },
   "SmtpUseAuth": {
+    "type": "boolean",
     "descriptions": [
       "Whether authentication is needed\n\nThis indicates whether the server uses authentication."
     ],
@@ -223,6 +242,7 @@
     "commonOption": false
   },
   "SmtpUseSsl": {
+    "type": "boolean",
     "descriptions": [
       "Whether SSL should be used.\n\nThis indicates that SSL should be used on a dedicated port."
     ],
@@ -233,6 +253,7 @@
     "commonOption": false
   },
   "SmtpUseTls": {
+    "type": "boolean",
     "descriptions": [
       "Whether TLS should be used.\n\nThis indicates that STARTTLS should be used on a standard port\nafter the connection has been established to obtain a secure\nchannel."
     ],
@@ -309,6 +330,7 @@
     "commonOption": false
   },
   "MusicEnabled": {
+    "type": "boolean",
     "descriptions": [],
     "providers": [
       "lastfm"
