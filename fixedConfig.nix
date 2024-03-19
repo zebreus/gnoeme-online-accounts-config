@@ -42,8 +42,7 @@ let
         '';
       };
       Identity = mkOption {
-        type = types.nullOr types.str;
-        default = null;
+        type = types.str;
         description = ''
           A string that uniquely identifies the account at the provider. This will only be displayed to the user if [](#opt-service.gnome-online-accounts.accounts._name_.PresentationIdentity) is not set.
 
@@ -65,8 +64,7 @@ let
         '';
       };
       Provider = mkOption {
-        type = types.nullOr (types.enum [ "exchange" "fedora" "google" "imap_smtp" "kerberos" "media-server" "lastfm" "owncloud" "windows_live" ]);
-        default = null;
+        type = (types.enum [ "exchange" "fedora" "google" "imap_smtp" "kerberos" "media-server" "lastfm" "owncloud" "windows_live" ]);
         description = ''
           The type of the account. This value describes how data is accessed, e.g. what API
           applications should use. Most other options are only relevant for a specific provider.

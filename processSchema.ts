@@ -193,7 +193,7 @@ for (const [optionName, override] of Object.entries(overrides)) {
 }
 
 type FixedOption = {
-    type: "string" | "boolean" | string[], required?: boolean, example?: string, default: undefined | string | boolean, description: string, providers: string[], commonOption?: boolean
+    type: "string" | "boolean" | string[], required: boolean | undefined, example: string | undefined, default: undefined | string | boolean, description: string, providers: string[], commonOption?: boolean
 }
 
 const basekey = "service.gnome-online-accounts.accounts._name_";
@@ -241,8 +241,9 @@ Override: ${JSON.stringify(override, null, 2)}`);
     const description = cleanupDescription([mainDescription, override.extraDescription, relevantProvidersDescription].filter(v => v).join("\n\n"));
     const fixedOption: FixedOption = {
         type: optionName === "Provider" ? (providers as string[]) : (override.type || option.type || "string" as const) as "string" | "boolean",
-        example: override.example,
-        default: override.default,
+        example: override.example ?? undefined,
+        default: override.default ?? undefined,
+        required: override.required ?? false,
         description: description,
         providers: override.providers ?? option.providers,
         commonOption: override.commonOption ?? option.commonOption ?? false,
@@ -256,7 +257,7 @@ Override: ${JSON.stringify(override, null, 2)}`);
 await Deno.writeTextFile("fixedConfig.json", JSON.stringify(fixedOptions, null, 2));
 
 let optionModules = Object.entries(fixedOptions).map(([optionName, option]) => {
-    const type = `${option.required ? "" : "types.nullOr "} ${option.type === "string" ? "types.str" : option.type === "boolean" ? "types.bool" : `(types.enum [${(option.type.map(provider => `"${provider}"`)).join(" ")}])`}`;
+    const type = `${option.required ? "" : "types.nullOr "}${option.type === "string" ? "types.str" : option.type === "boolean" ? "types.bool" : `(types.enum [${(option.type.map(provider => `"${provider}"`)).join(" ")}])`}`;
     const defaultValue = option.default ? (option.default.toString()) : option.required ? undefined : "null";
     const example = option.example ? option.example : undefined;
 

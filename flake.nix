@@ -59,12 +59,12 @@
             local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
             
             if [[ "$output" == *"error"* ]]; then
-              echo "Test $testname failed" >> $OUT/$testname.out
+              printf "\e[1m\e[31m☒\e[0m Test $testname failed\n" >> $OUT/$testname.out
               echo "$output" >> $OUT/$testname.out
               return 1
             fi
 
-            echo "Test $testname passed" >> $OUT/$testname.out
+            printf "\e[1m\e[32m☑\e[0m Test $testname passed\n" >> $OUT/$testname.out
           }
 
           function expectFailure {
@@ -73,12 +73,12 @@
             local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
             
             if [[ "$output" != *"error"* ]]; then
-              echo "Test $testname failed" >> $OUT/$testname.out
+              printf "\e[1m\e[31m☒\e[0m Test $testname failed\n" >> $OUT/$testname.out
               echo "$output" >> $OUT/$testname.out
               return 1
             fi
 
-            echo "Test $testname passed" >> $OUT/$testname.out
+            printf "\e[1m\e[32m☑\e[0m Test $testname passed\n" >> $OUT/$testname.out
           }
 
           expectSuccess "nothing" &
