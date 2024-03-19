@@ -4,9 +4,11 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
     (flake-utils.lib.eachDefaultSystem (system:
       rec {
         pkgs = import nixpkgs { inherit system; };
@@ -38,8 +40,79 @@
             meta.mainProgram = pname;
           });
         packages.default = packages.extract-config;
+
+        nixosConfigurations.test1 = {
+          system = "x86_64-linux";
+          modules = [
+            (import ./tests/test.nix)
+          ];
+        };
+
+        packages.tests = pkgs.writeShellScriptBin "tests" ''
+          #!${pkgs.bash}/bin/bash
+
+          OUT=$(mktemp -d)
+
+          function expectSuccess {
+            local testname="$1"
+
+            local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
+            
+            if [[ "$output" == *"error"* ]]; then
+              echo "Test $testname failed" >> $OUT/$testname.out
+              echo "$output" >> $OUT/$testname.out
+              return 1
+            fi
+
+            echo "Test $testname passed" >> $OUT/$testname.out
+          }
+
+          function expectFailure {
+            local testname="$1"
+
+            local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
+            
+            if [[ "$output" != *"error"* ]]; then
+              echo "Test $testname failed" >> $OUT/$testname.out
+              echo "$output" >> $OUT/$testname.out
+              return 1
+            fi
+
+            echo "Test $testname passed" >> $OUT/$testname.out
+          }
+
+          expectSuccess "nothing" &
+          expectFailure "missingProvider" &
+          expectSuccess "sanityCheck" &
+
+          while true; do
+            wait -n || {
+              code="$?"
+              ([[ $code = "127" ]] && exit 0 || exit "$code")
+              break
+            }
+          done;
+
+          cat $OUT/*.out
+           
+        '';
+
       }
     )) // {
+      tests = builtins.foldl' (acc: test: acc // test) { } (builtins.map
+        (name: {
+          ${name} = home-manager.lib.homeManagerConfiguration {
+            pkgs = import nixpkgs { system = "x86_64-linux"; };
+            modules = [
+              { home.stateVersion = "23.11"; home.username = "test"; home.homeDirectory = "/home/test"; }
+              (import ./module.nix)
+              (import (./tests + "/${name}.nix"))
+            ];
+          };
+        }) [ "missingProvider" "nothing" "sanityCheck" ]);
+
+
+
       nixosModules.default = { ... }: {
         home-manager.sharedModules = [ (import ./module.nix) ];
       };
