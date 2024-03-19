@@ -422,10 +422,10 @@ let
 in
 {
   options = with lib ; {
-    services.gnome-online-accounts.settings = mkOption {
+    services.gnome-online-accounts.accounts = mkOption {
       type = types.attrsOf (types.submodule accountType);
       description = ''
-        Settings which are applied to `.config/goa-1.0/accounts.conf`.
+        Accounts which are put into `.config/goa-1.0/accounts.conf`. The keys are put directly into the config file. Every account needs to have a [](#opt-service.gnome-online-accounts.accounts._name_.Provider) and unique [](#opt-service.gnome-online-accounts.accounts._name_).
 
         All valid settings for gnome-online-accounts 3.48.0 are covered by this module.
 

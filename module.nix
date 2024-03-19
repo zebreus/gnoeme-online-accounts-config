@@ -19,6 +19,6 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    home.file.".config/goa-1.0/accounts.conf".text = generateAccountsIni cfg.settings;
+    home.file.".config/goa-1.0/accounts.conf".text = generateAccountsIni cfg.accounts;
   };
 }
