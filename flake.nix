@@ -84,6 +84,7 @@
           expectSuccess "nothing" &
           expectFailure "missingProvider" &
           expectSuccess "sanityCheck" &
+          expectSuccess "enableAccountTest" &
 
           while true; do
             wait -n || {
@@ -109,7 +110,7 @@
               (import (./tests + "/${name}.nix"))
             ];
           };
-        }) [ "missingProvider" "nothing" "sanityCheck" ]);
+        }) [ "missingProvider" "nothing" "sanityCheck" "enableAccountTest" ]);
 
 
 
