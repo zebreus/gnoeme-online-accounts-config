@@ -41,8 +41,14 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.file.".config/goa-1.0/accounts.conf".text = generateAccountsIni (lib.filterAttrs
-      (name: value: (name != "enable") && (name != "name") && (value != null))
-      (lib.filterAttrs (name: value: value.enable) cfg.accounts));
+    home.file.".config/goa-1.0" = {
+      source = writeTextFile {
+        name = "accounts.conf";
+        text = generateAccountsIni (lib.filterAttrs
+          (name: value: (name != "enable") && (name != "name") && (value != null))
+          (lib.filterAttrs (name: value: value.enable) cfg.accounts));
+        destination = "/accounts.conf";
+      };
+    };
   };
 }
