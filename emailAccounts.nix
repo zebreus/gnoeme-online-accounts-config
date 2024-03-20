@@ -43,7 +43,7 @@ let
 
       smtp.userName = mkOption {
         type = types.nullOr types.str;
-        default = "config.userName";
+        default = config.userName;
         description = ''
           The SMTP username for the account.
         '';
@@ -61,7 +61,7 @@ let
 
       imap.userName = mkOption {
         type = types.nullOr types.str;
-        default = "config.userName";
+        default = config.userName;
         description = ''
           The IMAP username for the account.
         '';
@@ -69,7 +69,7 @@ let
 
       windowsLiveId = mkOption {
         type = types.nullOr types.str;
-        default = "config.userName";
+        default = config.userName;
         description = ''
           The Microsoft user ID for the account. Required if `provider` is set to "windows_live".
 

@@ -1,4 +1,4 @@
-{ lib, config, ... }: with lib;
+{ lib, config, pkgs, ... }: with lib;
 let
   generateAccountsIni = lib.generators.toINI { mkSectionName = v: "Account ${v}"; };
 
@@ -42,10 +42,10 @@ in
 
   config = lib.mkIf cfg.enable {
     home.file.".config/goa-1.0" = {
-      source = writeTextFile {
+      source = pkgs.writeTextFile {
         name = "accounts.conf";
-        text = generateAccountsIni (lib.filterAttrs
-          (name: value: (name != "enable") && (name != "name") && (value != null))
+        text = generateAccountsIni (lib.mapAttrs
+          (name: value: (lib.filterAttrs (name: value: (name != "enable") && (name != "name") && (value != null)) value))
           (lib.filterAttrs (name: value: value.enable) cfg.accounts));
         destination = "/accounts.conf";
       };
