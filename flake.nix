@@ -8,7 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
+  outputs = { nixpkgs, flake-utils, home-manager, ... }:
     (flake-utils.lib.eachDefaultSystem (system:
       rec {
         pkgs = import nixpkgs { inherit system; };
@@ -56,7 +56,7 @@
           function expectSuccess {
             local testname="$1"
 
-            local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
+            local output="$(echo -e ":lf .\n:te\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr | grep -v 'showing error traces')"
             
             if [[ "$output" == *"error"* ]]; then
               printf "\e[1m\e[31m☒\e[0m Test $testname failed\n" >> $OUT/$testname.out
@@ -70,7 +70,7 @@
           function expectFailure {
             local testname="$1"
 
-            local output="$(echo -e ":lf .\ntests.''${testname}" | nix repl 2>&1 | grep -v tcsetattr)"
+            local output="$(echo -e ":lf .\n:te\ntests.''${testname}" | nix repl --show-trace 2>&1 | grep -v tcsetattr | grep -v 'showing error traces')"
             
             if [[ "$output" != *"error"* ]]; then
               printf "\e[1m\e[31m☒\e[0m Test $testname failed\n" >> $OUT/$testname.out
@@ -85,6 +85,10 @@
           expectFailure "missingProvider" &
           expectSuccess "sanityCheck" &
           expectSuccess "enableAccountTest" &
+          expectSuccess "nameWorks" &
+          expectSuccess "mailAccountTest" &
+          expectSuccess "emailAccountEnablesModule" &
+          expectFailure "exchangeAccountFailsWithoutHost" &
 
           while true; do
             wait -n || {
@@ -110,7 +114,7 @@
               (import (./tests + "/${name}.nix"))
             ];
           };
-        }) [ "missingProvider" "nothing" "sanityCheck" "enableAccountTest" ]);
+        }) [ "missingProvider" "nothing" "sanityCheck" "enableAccountTest" "nameWorks" "mailAccountTest" "emailAccountEnablesModule" "exchangeAccountFailsWithoutHost" ]);
 
 
 
